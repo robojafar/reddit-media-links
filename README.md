@@ -19,7 +19,7 @@ Selecting either _top_ or _new_ sort will make 10 requests for a subreddit or 20
 selecting _Top and New_ sort will make double the requests.
 
 ## Disclaimers
-- No copyrighted video or images are hosted by this applications
+- No copyrighted video or images are hosted by this site
 - Do not abuse this tool
 - Don't be creepy
 
