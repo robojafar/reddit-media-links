@@ -1,8 +1,4 @@
-//Version 1.1.0
-
-//Flag to reduce the number of pages for testing
-//Can be set in devtools before starting
-var testing = false;
+//Version 1.2.0
 
 //Counter used for looping through both top and new
 var iteration = 1;
@@ -10,14 +6,20 @@ var iteration = 1;
 //Total pages to access.
 //10 is max for subreddits
 //20 is max for users
-var total_pages = testing ? 2 : 20;
+var total_pages = 20;
 
 //Counter for current page accessed
 var page = 0;
 
+//Flag to show images
+var show_images = false;
+
 //Arrays to collect links
 var links = [];
 var error_links = [];
+
+//Default image checkbox to false
+document.getElementById("chk_images").checked = false;
 
 //Clears the name input box on reload
 typeChangeEvent();
@@ -40,6 +42,8 @@ document.getElementById("btn_start").addEventListener("click", function () {
         document.getElementById("sel_sorts").disabled = true;
         document.getElementById("txt_name").disabled = true;
         document.getElementById("btn_start").disabled = true;
+        document.getElementById("sel_pages").disabled = true;
+        document.getElementById("chk_images").disabled = true;
 
         //Gets the sorting method
         //Starts with top sort in the case that Top and New are selected
@@ -53,6 +57,9 @@ document.getElementById("btn_start").addEventListener("click", function () {
             iteration = 1;
             sort = document.getElementById("sel_sorts").value;
         }
+
+        total_pages = document.getElementById("sel_pages").value;
+        show_images = document.getElementById("chk_images").checked;
 
         //Info: https://github.com/reddit-archive/reddit/wiki
         //Info: https://www.reddit.com/dev/api/
@@ -135,7 +142,7 @@ function getJson(url, sort, after) {
                         //(probably unnecessary)
                         setTimeout(function () {
                             getJson(url, sort, json.data.after);
-                        }, 1000);
+                        }, 100);
                     }
                     else if (iteration < 1) {
                         //In the case of both Top and New should be accessed
@@ -209,7 +216,7 @@ function extractLinks(json) {
                 else if (post.data.domain == "v.redd.it") {
                     //Uses the static video instead of the streaming version
                     //Downside is the filename start with DASH_ instead of unique id
-                    link = post.data.media.reddit_video.fallback_url;
+                    link = (post.data.media.reddit_video.fallback_url).replace("?source=fallback", "");
                 }
                 else if (post.data.domain.includes("redgifs")) {
                     getRedgifsLink(url);
@@ -232,7 +239,7 @@ function extractLinks(json) {
             console.error(e + " from " + error_link);
 
             //Saves the unprocessed links as Reddit posts
-            error_links.push('<a href="' + error_link + '">' + error_link + '</a>')
+            error_links.push('<a href="' + error_link + '" target="_blank">' + error_link + '</a>')
         }
 
         //Adds link to array
@@ -298,12 +305,9 @@ function getRedgifsLink(url) {
  * @param {string} link Direct media link
  */
 function addToLinks(link) {
-    //Wraps link in HTML a tag for display purposes
-    var hyperlink = '<a href="' + link + '">' + link + '</a>'
-
     //Checks for duplicate links
-    if (link != undefined && !links.includes(hyperlink)) {
-        links.push(hyperlink);
+    if (link != undefined && !links.includes(link)) {
+        links.push(link);
         console.log(link + ", count=" + links.length);
     }
     document.getElementById("status").innerText = "Status: Found " + links.length + " unique links...";
@@ -314,10 +318,28 @@ function addToLinks(link) {
  */
 function showLinks() {
     document.getElementById("status").innerText = "Status: Collected " + links.length + " unique links.";
-    links.forEach(link => {
-        document.getElementById("links").innerHTML += link + "<br>";
-    });
-    error_links.forEach(link => {
-        document.getElementById("error_links").innerHTML += link + "<br>";
-    });
+    setTimeout(function () {
+        links.forEach(link => {
+            setTimeout(() => {
+                var html;
+                if (show_images) {
+                    if (link.includes("mp4") || link.includes("v.redd.it"))
+                    {
+                        html = '<video controls muted preload="metadata" src="' + link + '"></video>' + "<br>";
+                    }
+                    else
+                    {
+                        html = '<img src="' + link + '" loading="lazy">' + "<br>";
+                    }
+                }
+                else {
+                    html = '<a href="' + link + '" target="_blank">' + link + '</a>' + "<br>";
+                }
+                document.getElementById("links").innerHTML += html;
+            }, 1);
+        });
+        error_links.forEach(link => {
+            document.getElementById("error_links").innerHTML += link + "<br>";
+        });
+    }, 100);
 }
