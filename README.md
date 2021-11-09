@@ -17,6 +17,11 @@ Data hoarders, be wary: Reddit limits requests to 30 per minute.
 Selecting either top or new sort will make 10 requests for a subreddit or 20 requests for a user.
 Selecting Top and New sort will make double the requests.
 
+## Disclaimers
+- No copyrighted video or images are hosted by this applications
+- Do not abuse this tool
+- Don't be creepy
+
 ## Resources
 The following resources were helpful in building this script:
 - [Reddit API](https://www.reddit.com/dev/api/)
