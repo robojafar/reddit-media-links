@@ -1,4 +1,4 @@
-//Version 1.0.0
+//Version 1.1.0
 
 //Flag to reduce the number of pages for testing
 //Can be set in devtools before starting
@@ -60,11 +60,11 @@ document.getElementById("btn_start").addEventListener("click", function () {
         //Query parameters: 
         //limit=100 is max items
         //t=all is all-time (for top sort, has no effect on new)
-        var base_url = "https://api.reddit.com/" + "user" + "/" + name + ".json?limit=100&t=all";
+        var base_url = "https://api.reddit.com/" + "user" + "/" + name + "?limit=100&t=all";
 
         //For subreddits, the sort is part of the path and not a query parameter (which has no effect) 
         if (document.getElementById("sel_types").value == "subreddit") {
-            base_url = "https://api.reddit.com/" + "r" + "/" + name + "/" + sort + "/.json?limit=100&t=all";
+            base_url = "https://api.reddit.com/" + "r" + "/" + name + "/" + sort + "?limit=100&t=all";
         }
 
         document.getElementById("status").innerText = "Status: Starting link collection..."
