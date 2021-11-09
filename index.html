@@ -5,9 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Simple page to aggregate direct video and image links for Reddit" />
-    <meta name="version" content="1.1.0">
+    <meta name="version" content="1.2.0">
 
     <title>Media Links for Reddit</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: small;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        video {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,27 +62,38 @@
             <option value="subreddit" selected>Subreddit</option>
             <option value="user">User</option>
         </select>
-        <label id="lbl_name" for="txt_name" style="margin-left: 20px; font-family: monospace;">u/</label>
-        <input type="text" id="txt_name" placeholder="username">
-
-        <label for="sel_sorts" style="margin-left: 20px;">Sort:</label>
+        <label for="sel_sorts">Sort:</label>
         <select id="sel_sorts">
             <option value="top" selected>Top</option>
             <option value="new">New</option>
             <option value="both">Top and New</option>
         </select>
-        <button id="btn_start" style="margin-left: 20px; padding-left: 16px; padding-right: 16px;">Start</button>
-        <button id="btn_reset" style="margin-left: 4px;">Reset</button>
+        <br>
+        <label id="lbl_name" for="txt_name" style="font-family: monospace;">u/</label>
+        <input type="text" id="txt_name" placeholder="username" style="margin-top: 10px;" />
+        <br>
+        <label for="sel_pages">Pages:</label>
+        <select id="sel_pages" style="margin-top: 10px;">
+            <option value="1">1</option>
+            <option value="5">5</option>
+            <option value="20" selected>Max</option>
+        </select>
+        <input type="checkbox" id="chk_images" value="show" />
+        <label for="chk_images">Show media</label>
+
+        <br>
+        <button id="btn_start" style="margin-top: 10px; padding-left: 30px; padding-right: 30px;">Start</button>
+        <button id="btn_reset">Reset</button>
     </div>
 
     <p id="status">Status: Ready to start.</p>
-    <div id="content" style="display: none;">
-        <p id="urls">Pages:<br></p>
-        <p id="links">Direct links:<br></p>
-        <p id="error_links">Unsupported posts:<br></p>
+    <div id="content" style="display: none; font-family: monospace;">
+        <p id="urls"><span style="font-family: sans-serif; font-weight: bold;">Pages:</span><br></p>
+        <p id="links"><span style="font-family: sans-serif; font-weight: bold;">Direct links:</span><br></p>
+        <p id="error_links"><span style="font-family: sans-serif; font-weight: bold;">Unsupported posts:</span><br></p>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main.js?v=1.2.0"></script>
 </body>
 
 </html>
