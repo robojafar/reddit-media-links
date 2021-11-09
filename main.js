@@ -1,4 +1,4 @@
-//Version 1.2.0
+//Version 1.2.1
 
 //Counter used for looping through both top and new
 var iteration = 1;
@@ -60,6 +60,10 @@ document.getElementById("btn_start").addEventListener("click", function () {
 
         total_pages = document.getElementById("sel_pages").value;
         show_images = document.getElementById("chk_images").checked;
+        if (show_images)
+        {
+            total_pages = document.getElementById("lbl_links").innerText = "Media:";
+        }
 
         //Info: https://github.com/reddit-archive/reddit/wiki
         //Info: https://www.reddit.com/dev/api/
@@ -239,7 +243,7 @@ function extractLinks(json) {
             console.error(e + " from " + error_link);
 
             //Saves the unprocessed links as Reddit posts
-            error_links.push('<a href="' + error_link + '" target="_blank">' + error_link + '</a>')
+            error_links.push('<a href="' + error_link + '" target="_blank">' + post.data.permalink + '</a>')
         }
 
         //Adds link to array
@@ -325,7 +329,7 @@ function showLinks() {
                 if (show_images) {
                     if (link.includes("mp4") || link.includes("v.redd.it"))
                     {
-                        html = '<video controls muted preload="metadata" src="' + link + '"></video>' + "<br>";
+                        html = '<video controls muted preload="none" src="' + link + '"></video>' + "<br>";
                     }
                     else
                     {
