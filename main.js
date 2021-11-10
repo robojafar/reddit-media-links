@@ -1,4 +1,4 @@
-//Version 1.2.1
+//Version 1.3.0
 
 //Counter used for looping through both top and new
 var iteration = 1;
@@ -19,6 +19,8 @@ var links = [];
 var error_links = [];
 
 var is_portrait = screen.availHeight > screen.availWidth;
+
+var lazyLoadInstance = new LazyLoad();
 
 //Defaults
 document.getElementById("chk_images").checked = false;
@@ -61,10 +63,10 @@ document.getElementById("btn_start").addEventListener("click", function () {
             sort = document.getElementById("sel_sorts").value;
         }
 
-        total_pages = document.getElementById("sel_pages").value;
+        total_pages = parseInt(document.getElementById("sel_pages").value, 10);
         show_images = document.getElementById("chk_images").checked;
         if (show_images) {
-            total_pages = document.getElementById("lbl_links").innerText = "Media:";
+            document.getElementById("lbl_links").innerText = "Media:";
         }
 
         //Info: https://github.com/reddit-archive/reddit/wiki
@@ -323,7 +325,10 @@ function addToLinks(link) {
  * Updates the page with data
  */
 function showLinks() {
-    document.getElementById("status").innerText = "Status: Collected " + links.length + " unique links.";
+    setTimeout(() => {
+        document.getElementById("status").innerText = "Status: Collected " + links.length + " unique links.";
+    }, 1);
+    
     setTimeout(function () {
         links.forEach(link => {
             setTimeout(() => {
@@ -331,17 +336,18 @@ function showLinks() {
                 if (show_images) {
                     var style = is_portrait ? 'width: 100%; height: auto; object-fit: contain;' : 'width: 100%; height: 90vh; object-fit: contain;';
                     if (link.includes("mp4") || link.includes("v.redd.it")) {
-                        html = '<video controls muted preload="none" src="' + link + '" style="' + style + '"></video>' + "<br>";
+                        html = '<video class="lazy" controls muted preload="none" data-src="' + link + '" style="' + style + '"></video>' + "<br>";
                     }
                     else {
-                        html = '<img src="' + link + '" loading="lazy" style="' + style + '">' + "<br>";
+                        html = '<img data-src="' + link + '" class="lazy" style="' + style + '">' + "<br>";
                     }
                 }
                 else {
                     html = '<a href="' + link + '" target="_blank">' + link + '</a>' + "<br>";
                 }
                 document.getElementById("links").innerHTML += html;
-            }, 1);
+                lazyLoadInstance.update();
+            }, 10);
         });
         error_links.forEach(link => {
             document.getElementById("error_links").innerHTML += link + "<br>";
