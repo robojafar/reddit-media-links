@@ -18,8 +18,11 @@ var show_images = false;
 var links = [];
 var error_links = [];
 
-//Default image checkbox to false
+var is_portrait = screen.availHeight > screen.availWidth;
+
+//Defaults
 document.getElementById("chk_images").checked = false;
+document.getElementById("txt_name").value = "";
 
 //Clears the name input box on reload
 typeChangeEvent();
@@ -60,8 +63,7 @@ document.getElementById("btn_start").addEventListener("click", function () {
 
         total_pages = document.getElementById("sel_pages").value;
         show_images = document.getElementById("chk_images").checked;
-        if (show_images)
-        {
+        if (show_images) {
             total_pages = document.getElementById("lbl_links").innerText = "Media:";
         }
 
@@ -91,7 +93,7 @@ document.getElementById("btn_start").addEventListener("click", function () {
 //Event handler for type select combo box
 function typeChangeEvent() {
     //Clears the name input box when the type is changed
-    document.getElementById("txt_name").value = "";
+    //document.getElementById("txt_name").value = "";
 
     //Updates the input box placeholder and label as a result
     if (document.getElementById("sel_types").value == "user") {
@@ -327,13 +329,12 @@ function showLinks() {
             setTimeout(() => {
                 var html;
                 if (show_images) {
-                    if (link.includes("mp4") || link.includes("v.redd.it"))
-                    {
-                        html = '<video controls muted preload="none" src="' + link + '"></video>' + "<br>";
+                    var style = is_portrait ? 'width: 100%; height: auto; object-fit: contain;' : 'width: 100%; height: 90vh; object-fit: contain;';
+                    if (link.includes("mp4") || link.includes("v.redd.it")) {
+                        html = '<video controls muted preload="none" src="' + link + '" style="' + style + '"></video>' + "<br>";
                     }
-                    else
-                    {
-                        html = '<img src="' + link + '" loading="lazy">' + "<br>";
+                    else {
+                        html = '<img src="' + link + '" loading="lazy" style="' + style + '">' + "<br>";
                     }
                 }
                 else {

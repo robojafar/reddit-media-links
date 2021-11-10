@@ -4,25 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Simple page to aggregate direct video and image links for Reddit" />
-    <meta name="version" content="1.2.0">
+    <meta name="description" content="Simple page that aggregates direct video and image links for Reddit" />
+    <meta name="version" content="1.2.1">
 
     <title>Media Links for Reddit</title>
 
     <style>
         body {
             font-family: sans-serif;
-            font-size: small;
-        }
-
-        img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        video {
-            width: 100%;
         }
     </style>
 </head>
@@ -74,9 +63,9 @@
         <br>
         <label for="sel_pages">Pages:</label>
         <select id="sel_pages" style="margin-top: 10px;">
-            <option value="1">1</option>
+            <option value="1" selected>1</option>
             <option value="5">5</option>
-            <option value="20" selected>Max</option>
+            <option value="20">Max</option>
         </select>
         <input type="checkbox" id="chk_images" value="show" />
         <label for="chk_images">Show media</label>
@@ -89,8 +78,10 @@
     <p id="status">Status: Ready to start.</p>
     <div id="content" style="display: none; font-family: monospace;">
         <p id="urls"><span style="font-family: sans-serif; font-weight: bold;">Pages:</span><br></p>
-        <p id="links"><span id="lbl_links" style="font-family: sans-serif; font-weight: bold;">Direct links:</span><br></p>
-        <p id="error_links"><span style="font-family: sans-serif; font-weight: bold;">Unsupported posts:</span><br></p>
+        <p id="links"><span id="lbl_links" style="font-family: sans-serif; font-weight: bold;">Direct links:</span><br>
+        </p>
+        <p id="error_links" style="overflow-wrap: break-word; word-wrap: break-word;"><span
+                style="font-family: sans-serif; font-weight: bold;">Unsupported posts:</span><br></p>
     </div>
 
     <script src="main.js?v=1.2.1"></script>
